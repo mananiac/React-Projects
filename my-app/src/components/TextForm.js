@@ -3,31 +3,55 @@ import React,  {useState} from 'react'
 export default function TextForm(props) {
 
     const [ text , setText] = useState('');
-    const handleUpClick = () => {
 
-        console.log("button clicked");
-        let newText = text.toUpperCase();
-        setText(newText);
-    }
-    const handleLoClick = () => {
-
-        console.log("button clicked");
-        let newText = text.toLowerCase();
-        setText(newText);
-    }
     const handleChange = (event) =>  {
 
         console.log("text Changed " )
         setText(event.target.value)
 
     }
+
+    const handleUpClick = () => {
+
+        console.log("button clicked");
+        let newText = text.toUpperCase();
+        setText(newText);
+    }
+
+    const handleLoClick = () => {
+
+        console.log("button clicked");
+        let newText = text.toLowerCase();
+        setText(newText);
+    }
+  
+    const copyText = (event) =>  {
+
+        let text = document.getElementById("myBox");
+        text.select();
+        navigator.clipboard.writeText(text.value);
+
+    }
+
+    const clearText = (event) =>  {
+
+        setText("")
+
+    }
+    const handleExtraSpaces = () => {
+        let newText = text.split(/[ ]+/); // making an array
+        setText(newText.join( " " )); // joining the array
+    }
   return (
-    <div>
+    <div style = {{color: props.mode==='light'?'black':'white'}}>
         <h1> {props.heading}</h1>
-        <div className="container my-3">
-            <textarea className="form-control my-3" value={text} onChange={handleChange}id="exampleFormControlTextarea1" rows="8"></textarea>
-            <button className="btn btn-primary mx-1" onClick={handleUpClick}>Convert to UpperCase</button>
-            <button className="btn btn-primary mx-1" onClick={handleLoClick}>Convert to LowerCase</button>
+        <div className="container my-3" >
+            <textarea className="form-control my-3" value={text} style = {{backgroundColor: props.mode==='dark'?'black':'white' , color: props.mode==='dark'?'white':'black' }} onChange={handleChange}id="myBox" rows="8"></textarea>
+            <button className="btn btn-primary my-1 mx-1" onClick={handleUpClick}>Convert to UpperCase</button>
+            <button className="btn btn-primary my-1 mx-1" onClick={handleLoClick}>Convert to LowerCase</button>
+            <button className="btn btn-primary my-1 mx-1" onClick={clearText}>Clear Text</button>
+            <button className="btn btn-primary my-1 mx-1" onClick={copyText}>Copy to Clipboard</button>
+            <button className="btn btn-primary my-1 mx-1" onClick={handleExtraSpaces}>Remove Extra spaces</button>
 
         </div>
 
@@ -36,7 +60,7 @@ export default function TextForm(props) {
             <p>{text.split(" ").length} words and {text.length} characters </p>
             <p> Time to read: {0.0008 * text.split(" ").length} minutes </p>
             <h2> Preview </h2>
-            <p> {text}</p>
+            <p> {text.length>0? text: "Enter text to preview it here"}</p>
         </div>
     </div>
   )
