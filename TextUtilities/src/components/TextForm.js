@@ -40,8 +40,9 @@ export default function TextForm(props) {
   };
   return (
     <div style={{ color: props.mode === "light" ? "black" : "white" }}>
-      <h1> {props.heading}</h1>
+      
       <div className="container my-3">
+      <h1 className="mb-2"> {props.heading}</h1>
         <textarea
           className="form-control my-3"
           value={text}
@@ -53,19 +54,19 @@ export default function TextForm(props) {
           id="myBox"
           rows="8"
         ></textarea>
-        <button className="btn btn-primary my-1 mx-1" onClick={handleUpClick}>
+        <button disabled={text.length===0}className="btn btn-primary my-1 mx-1" onClick={handleUpClick}>
           Convert to UpperCase
         </button>
-        <button className="btn btn-primary my-1 mx-1" onClick={handleLoClick}>
+        <button disabled={text.length===0} className="btn btn-primary my-1 mx-1" onClick={handleLoClick}>
           Convert to LowerCase
         </button>
-        <button className="btn btn-primary my-1 mx-1" onClick={clearText}>
+        <button disabled={text.length===0} className="btn btn-primary my-1 mx-1" onClick={clearText}>
           Clear Text
         </button>
-        <button className="btn btn-primary my-1 mx-1" onClick={copyText}>
+        <button disabled={text.length===0} className="btn btn-primary my-1 mx-1" onClick={copyText}>
           Copy to Clipboard
         </button>
-        <button
+        <button disabled={text.length===0}
           className="btn btn-primary my-1 mx-1"
           onClick={handleExtraSpaces}
         >
@@ -76,11 +77,11 @@ export default function TextForm(props) {
       <div className="container my-3">
         <h2> Your text summary </h2>
         <p>
-          {text.split(" ").length} words and {text.length} characters{" "}
+          {text.split(/\s+/).filter((element)=>{return element.length!==0}).length} words and {text.length} characters{" "}
         </p>
         <p> Time to read: {0.0008 * text.split(" ").length} minutes </p>
         <h2> Preview </h2>
-        <p> {text.length > 0 ? text : "Enter text to preview it here"}</p>
+        <p> {text.length > 0 ? text : "Nothing to preview"}</p>
       </div>
     </div>
   );
